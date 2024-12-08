@@ -1,0 +1,17 @@
+.layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0; // 背景色を設定（オプション）
+}
+
+.container {
+    width: 100%;
+    max-width: 390px; // iPhoneの幅に合わせる
+    height: 100vh;
+    max-height: 844px; // iPhoneの高さに合わせる
+    overflow-y: auto;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); // 影を追加してスマートフォンらしさを出す（オプション）
+}

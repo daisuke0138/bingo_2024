@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 320px;
+}
+
+.linkContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    width: 100%;
+}
+
+.link {
+    font-size: 1.875rem;
+    text-decoration: none;
+    color: black;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: #666;
+    }
+}
+
+.imageContainer {
+    width: 95%;
+    margin: 1rem;
+}

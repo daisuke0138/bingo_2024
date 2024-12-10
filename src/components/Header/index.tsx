@@ -59,6 +59,11 @@ export const Header = () => {
             fetchUser();
         }, [router]);
 
+        // ユーザーのイニシャルを取得する
+        const getInitial = (username: string) => {
+            return username.charAt(0);
+        };
+    
         // // logout処理
         const { logout } = useAuth();
         const handleLogout = async (e: React.MouseEvent<HTMLElement>) => {
@@ -106,7 +111,7 @@ export const Header = () => {
                         aria-expanded={open ? 'true' : undefined}
                     >
                         <Avatar sx={{ width: 32, height: 32, bgcolor: '#e0e0e0', color: '#000' }}>
-                            M
+                            {user ? getInitial(user.username) : ''}
                         </Avatar>
                     </IconButton>
 

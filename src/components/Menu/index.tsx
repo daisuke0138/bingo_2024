@@ -43,7 +43,7 @@ export const Menu = () => {
             </div>
             <div className={styles.linkContainer}>
                 <Link
-                    href="/"
+                    href="/menu"
                     className={`${abril.className} ${styles.link}`}
                 >
                     Game start

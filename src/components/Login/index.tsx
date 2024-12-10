@@ -80,7 +80,7 @@ export const Login = () => {
                         required
                         fullWidth
                         name="password"
-                        label="Pass Word"
+                        label="Password: 8 characters or more"
                         type="password"
                         id="password"
                         autoComplete="current-password"

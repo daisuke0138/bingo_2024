@@ -1,17 +1,17 @@
 import { Header } from '@/components/Header'
 import { Layout } from '@/components/Layout'
 import React from 'react'
-import { Menu } from '@/components/Menu'
+import { Gamecreate } from '@/components/Gamecreate'
 
-const menu = () => {
+const gamecreate = () => {
     return (
         <Layout>
             <main>
                 <Header />
-                <Menu />
+                <Gamecreate />
             </main>
         </Layout>
     )
 }
 
-export default menu
+export default gamecreate

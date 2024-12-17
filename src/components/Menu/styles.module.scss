@@ -10,10 +10,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
     margin-bottom: 3rem;
     width: 100%;
 }
+
+.menulogo {
+    font-size: 1.875rem;
+    text-decoration: none;
+    color: black;
+}
+
 
 .link {
     font-size: 1.875rem;
@@ -26,7 +33,24 @@
     }
 }
 
+.select {
+    font-size: 1.875rem;
+    text-decoration: none;
+    color: black;
+    margin-bottom: 1rem;
+}
+
 .imageContainer {
     width: 95%;
     margin: 1rem;
+}
+
+.selectContainer {
+    width: 100%;
+}
+
+.selectTitle {
+    font-size: 1.875rem;
+    text-align: center;
+    margin-bottom: 1rem;
 }

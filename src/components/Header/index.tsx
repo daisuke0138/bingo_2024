@@ -72,6 +72,7 @@ export const Header = () => {
             try {
                 await apiClient.post("/auth/logout");
                 localStorage.removeItem('auth_token'); // ローカルストレージからトークンを削除
+                localStorage.removeItem('currentGame'); // ローカルストレージからcurrentGameを削除
                 logout(); // ログアウト処理を呼び出し
                 alert("ログアウトが成功しました！");
                 router.push("/"); // topページにリダイレクト

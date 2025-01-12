@@ -14,8 +14,8 @@ const abril = Abril_Fatface({
 })
 
 export const Menu = () => {
-    const [selectedGame, setSelectedGame] = useState<string>('')
-    const [games, setGames] = useState<string[]>([])
+    const [selectedGame, setSelectedGame] = useState<number | ''>('')
+    const [games, setGames] = useState<Array<{ id: number, title: string }>>([]);
 
     useEffect(() => {
         const fetchGames = async () => {
@@ -31,7 +31,7 @@ export const Menu = () => {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setGames(response.data.map((game: { title: string }) => game.title));
+                setGames(response.data.map((game: { id: number, title: string }) => ({ id: game.id, title: game.title })));
                 console.log('title list', response.data);
             } catch (error) {
                 console.error('Failed to game title', error);
@@ -42,9 +42,35 @@ export const Menu = () => {
     }, []);
 
 
-    const handleGameSelect = (event: SelectChangeEvent<string>) => {
-        setSelectedGame(event.target.value as string);
+    const handleGameSelect = (event: SelectChangeEvent<number>) => {
+        const selectedValue = event.target.value as number;
+        setSelectedGame(selectedValue);
+        console.log(`Selected game : ${selectedValue}`);
     };
+
+    const handleGameStart = async (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        event.preventDefault();
+        if (selectedGame !== '') {
+            try {
+                const response = await apiClient.post('/auth/selectgame', { gameId: selectedGame });
+                console.log('Game data:', response.data);
+                // レスポンスデータをローカルストレージに保存
+                localStorage.setItem('currentGame', JSON.stringify(response.data));
+                // アラートを表示し、ユーザーの確認を得る
+                const confirmStart = window.confirm(`"${response.data.title}" を開始しますか？`);
+
+                if (confirmStart) {
+                    // ユーザーが確認した場合のみ画面遷移
+                    window.location.href = '/gamemenu';
+                }
+            } catch (error) {
+                console.error('Error starting game:', error);
+            }
+        } else {
+            console.log('No game selected');
+        }
+    };
+
         return (
             <div className={styles.container}>
                 <div className={styles.linkContainer}>
@@ -67,14 +93,20 @@ export const Menu = () => {
                             onChange={handleGameSelect}
                             displayEmpty
                             fullWidth
-                            renderValue={(selected) => selected || <span>title list</span>}
+                            renderValue={(selected) => {
+                                if (selected === 0) {
+                                    return <span className={`${abril.className} ${styles.select}`}>title list</span>;
+                                }
+                                const selectedGameTitle = games.find(game => game.id === selected)?.title;
+                                return <span className={`${abril.className} ${styles.select}`}>{selectedGameTitle}</span>;
+                            }}
                         >
-                            {games.map((game, index) => (
-                                <MenuItem key={index} value={game}>
-                                    {game}
-                                    {selectedGame === game && <CheckIcon className="ml-2" />}
-                                </MenuItem>
-                            ))}
+                {games.map((game) => (
+                    <MenuItem className={`${abril.className} ${styles.selectTitle}`} key={game.id} value={game.id}>
+                        {game.title}
+                        {selectedGame === game.id && <CheckIcon className="ml-2" />}
+                    </MenuItem>
+                ))}
                         </Select>
                     </div>
                 </div>
@@ -87,17 +119,18 @@ export const Menu = () => {
                         height={224}
                         style={{
                             maxWidth: '100%',
-                            height: 'auto'
+                            height: 'auto',
                         }}
                         priority
                     />
                 </div>
                 <div className={styles.linkContainer}>
                     <Link
-                        href="/menu"
+                        href="/gamemenu"
+                        onClick={handleGameStart}
                         className={`${abril.className} ${styles.link}`}
                     >
-                        Game start
+                        !Game start!
                     </Link>
                 </div>
             </div>

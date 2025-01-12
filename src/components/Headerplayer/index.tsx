@@ -2,7 +2,7 @@ import React, { useEffect, useState, FormEvent } from "react";
 import { Abril_Fatface } from 'next/font/google'
 import styles from './styles.module.scss'
 import apiClient from "@/lib/apiClient";
-import { useRouter } from "next/router";
+import { useRouter, NextRouter } from "next/router";
 
 
 interface Userdata {
@@ -18,42 +18,32 @@ const abril = Abril_Fatface({
 export const Headerplayer = () => {
     // loginしているユーザー情報を取得する
     const [user, setUser] = useState<Userdata | null>(null);
-    const router = useRouter();
 
-        useEffect(() => {
-            const fetchUser = async () => {
-                const token = localStorage.getItem('auth_token');
-                if (!token) {
-                    console.log('No auth token found, stopping request.');
-                    return; // トークンがない場合はリクエストを停止
-                }
+    // urlからgameIdとtitleを取得する
+    const [gameTitle, setGameTitle] = useState<string>("game title");
+    const router = useRouter() as NextRouter;
 
-                try {
-                    const response = await apiClient.get('/auth/player', {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    });
-                    console.log('API response:', response.data); // 取得したデータをコンソールに出力
-                    setUser(response.data.user); // レスポンスの構造に合わせて修正
-                }
-            
-                catch (error: unknown) {
-                    console.error('Failed to fetch user:', error);
-                    if
-                        (error instanceof Error && (error as { response?: { status: number } }).response?.status === 401) {
-                            router.push('/login');
-                        }
-                }
-            };
-            fetchUser();
-        }, [router]);
+    useEffect(() => {
+        // URLからgameIdとtitleを取得
+        const { gameId, title } = router.query;
+
+        if (gameId && title) {
+            // ローカルストレージへ保存
+            localStorage.setItem('gameId', gameId as string);
+            localStorage.setItem('gameTitle', title as string);
+            // タイトルを状態にセット
+            setGameTitle(decodeURIComponent(title as string));
+
+                console.log('保存されたgameId:', gameId);
+                console.log('保存されたtitle:', title);
+            }
+        }, [router.query]);
 
         return (
             <div className={styles.headerline}>
                 <header className={styles.header}>
                     <h1 className={`${abril.className} ${styles.title}`}>
-                        game title
+                        {gameTitle}
                     </h1>
                 </header>
             </div>

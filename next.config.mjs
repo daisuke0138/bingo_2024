@@ -15,8 +15,13 @@ const nextConfig = {
     });
     return config;
   },
-  images: { disableStaticImages: false, }
+  images: {
+    disableStaticImages: false,
+    domains: ['ivbqhghkzeniyukguqnp.supabase.co'],
+  },
+  reactStrictMode: true,
 };
+
 export default nextConfig;
 
 // const config = {

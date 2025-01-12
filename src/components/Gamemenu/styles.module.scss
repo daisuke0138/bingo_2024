@@ -108,3 +108,19 @@
         text-decoration: none;
     }
 }
+
+.dialog {
+    .dialogContent {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .qrCode {
+        margin: auto;
+    }
+
+    .closeButton {
+        margin-top: 1rem;
+    }
+}
